@@ -2,6 +2,7 @@ package com.udacity.project4.locationreminders.savereminder.selectreminderlocati
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Address
@@ -201,25 +202,24 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-//    /**
-//     * Check if the user has granted the permission.
-//     */
-//    private fun isPermissionGranted(): Boolean {
-//        return ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) == PackageManager.PERMISSION_GRANTED
-//    }
+    /**
+     * Check if the user has granted the permission.
+     */
+    private fun isPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
     /**
      * To enable location tracking in the app.
      * If the permission is granted, enable the location layer. Otherwise, request the permission.
      */
+    @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true
+        if (isPermissionGranted()) {
+            map.setMyLocationEnabled(true)
         } else {
             requestPermissions(
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
