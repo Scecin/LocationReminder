@@ -4,20 +4,14 @@ import android.app.Activity
 import android.app.Application
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.udacity.project4.locationreminders.RemindersActivity
 import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.local.LocalDB
@@ -28,9 +22,8 @@ import com.udacity.project4.util.DataBindingIdlingResource
 import com.udacity.project4.util.monitorActivity
 import com.udacity.project4.utils.EspressoIdlingResource
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.not
-import org.hamcrest.core.Is.`is`
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -108,9 +101,8 @@ class RemindersActivityTest :
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
 
-        onView(withId(R.id.addReminderFAB)).perform(ViewActions.click())
+        onView(withId(R.id.addReminderFAB)).perform(click())
         onView(withId(R.id.reminderTitle)).check(matches(isDisplayed()))
-        onView(withId(R.id.reminderTitle)).perform(replaceText("New Title"))
         onView(withId(R.id.reminderDescription)).perform(replaceText("New Description"))
         onView(withId(R.id.selectLocation)).perform(click())
 
@@ -119,14 +111,16 @@ class RemindersActivityTest :
         onView(withId(R.id.save_button)).perform(click())
         onView(withId(R.id.saveReminder)).perform(click())
 
+
         //        Test for toast
-        onView(withText(R.string.reminder_saved))
-                .inRoot(withDecorView(not(getActivity(activityScenario)!!.window.decorView))).check(matches(isDisplayed()))
+//        onView(withText(R.string.reminder_saved))
+//                .inRoot(withDecorView(not(getActivity(activityScenario)!!.window.decorView)))
+//                    .check(matches(isDisplayed()))
+
 
         //        Test for snack bar
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.err_enter_title)))
-
     }
 
     // get activity context
