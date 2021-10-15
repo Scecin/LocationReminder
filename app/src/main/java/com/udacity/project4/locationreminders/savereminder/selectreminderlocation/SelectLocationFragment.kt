@@ -203,27 +203,21 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     /**
-     * Check if the user has granted the permission.
-     */
-    private fun isPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    /**
-     * To enable location tracking in the app.
-     * If the permission is granted, enable the location layer. Otherwise, request the permission.
-     */
-    @SuppressLint("MissingPermission")
+     * Enable location if user grant permission
+     * */
     private fun enableMyLocation() {
-        if (isPermissionGranted()) {
-            map.setMyLocationEnabled(true)
-        } else {
-            requestPermissions(
-                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_LOCATION_PERMISSION
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            map.isMyLocationEnabled = true
+
+        }
+
+        else {
+            this.requestPermissions(
+                    arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_LOCATION_PERMISSION
             )
         }
     }

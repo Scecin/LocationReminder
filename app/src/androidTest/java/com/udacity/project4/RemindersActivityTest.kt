@@ -116,7 +116,7 @@ class RemindersActivityTest :
         onView(withId(R.id.reminderTitle)).perform(replaceText("New Title"))
 
         //        Test for toast
-        onView(withText(R.string.reminder_saved))
+        onView(withText("Reminder Saved !"))
                 .inRoot(withDecorView(not(getActivity(activityScenario)!!.window.decorView)))
                     .check(matches(isDisplayed()))
     }
