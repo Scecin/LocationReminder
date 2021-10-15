@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.common.api.ResolvableApiException
@@ -89,7 +90,7 @@ class SaveReminderFragment : BaseFragment() {
                 NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
         }
 
-        binding.saveReminder.setOnClickListener {
+        binding.saveReminderButton.setOnClickListener {
             val title = _viewModel.reminderTitle.value
             val description = _viewModel.reminderDescription.value
             val location = _viewModel.reminderSelectedLocationStr.value
@@ -100,6 +101,7 @@ class SaveReminderFragment : BaseFragment() {
 
             if (_viewModel.validateEnteredData(reminderData)) {
                 checkPermissionsAndStartGeofencing()
+                Toast.makeText(context, "Reminder Saved !", Toast.LENGTH_LONG).show()
             }
         }
     }
