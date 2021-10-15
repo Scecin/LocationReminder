@@ -22,7 +22,6 @@ import com.udacity.project4.util.DataBindingIdlingResource
 import com.udacity.project4.util.monitorActivity
 import com.udacity.project4.utils.EspressoIdlingResource
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
@@ -100,27 +99,26 @@ class RemindersActivityTest :
         val activityScenario = ActivityScenario.launch(RemindersActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
-
         onView(withId(R.id.addReminderFAB)).perform(click())
         onView(withId(R.id.reminderTitle)).check(matches(isDisplayed()))
         onView(withId(R.id.reminderDescription)).perform(replaceText("New Description"))
         onView(withId(R.id.selectLocation)).perform(click())
 
-
         onView(withId(R.id.map)).perform(longClick())
         onView(withId(R.id.save_button)).perform(click())
         onView(withId(R.id.saveReminder)).perform(click())
 
-
-        //        Test for toast
-//        onView(withText(R.string.reminder_saved))
-//                .inRoot(withDecorView(not(getActivity(activityScenario)!!.window.decorView)))
-//                    .check(matches(isDisplayed()))
-
-
         //        Test for snack bar
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.err_enter_title)))
+
+
+        onView(withId(R.id.reminderTitle)).perform(replaceText("New Title"))
+
+        //        Test for toast
+        onView(withText(R.string.reminder_saved))
+                .inRoot(withDecorView(not(getActivity(activityScenario)!!.window.decorView)))
+                    .check(matches(isDisplayed()))
     }
 
     // get activity context
